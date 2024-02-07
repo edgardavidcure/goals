@@ -6,7 +6,7 @@ type ConnectionStatus = {
   isConnected: boolean;
 };
 
-export const getConnection = (async () => {
+const getConnection = (async () => {
   try {
     await clientPromise;
     // `await clientPromise` will use the default database passed in the MONGODB_URI
