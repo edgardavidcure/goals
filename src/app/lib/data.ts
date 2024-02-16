@@ -1,6 +1,7 @@
-import { Goal } from "./definitions";
+import { Goal, User } from "./definitions";
 import GoalModel from "../models/Goal";
-
+import UserModel from "../models/User"
+import { unstable_noStore as noStore } from 'next/cache';
 export async function findGoalsByUserId(userId: string): Promise<Goal[] | null> {
     try {
       const goals = await GoalModel.find({ userId }).exec();
@@ -48,5 +49,28 @@ export async function createGoal(data: Partial<Goal>): Promise<Goal | null> {
     } catch (error) {
       console.error('Error creating goal:', error);
       return null;
+    }
+}
+
+export async function getUserByEmail(userEmail: string): Promise<User | null> {
+  noStore();
+
+    try {
+        const user = await UserModel.findOne({email: userEmail})
+        console.log(user)
+        return user
+    } catch (error) {
+        console.error('Error finding user:', error);
+        return null;
+    }
+}
+
+export async function createUser(data: Partial<User>): Promise<User | null>{
+    try {
+        const newUser = UserModel.create(data)
+        return newUser
+    } catch (error) {
+        console.error('Error creating User:', error);
+        return null;
     }
 }

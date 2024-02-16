@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from 'mongoose';
 import { Goal }  from '../lib/definitions'
-
+import mongoose from 'mongoose';
 const GoalSchema = new Schema<Goal>({
     
         userId: { type: String, required: [true, "Please provide a userId"] },
@@ -15,6 +15,8 @@ const GoalSchema = new Schema<Goal>({
     
 )
 
-const GoalModel = model<Goal>('Goal', GoalSchema);
+const GoalModel = mongoose.models.Goal || model<Goal>('Goal', GoalSchema);
+
+
 
 export default GoalModel;
