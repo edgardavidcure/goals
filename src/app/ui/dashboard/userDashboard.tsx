@@ -33,9 +33,8 @@ export function UserComponent({ params }: { params: { email: string } }) {
   
 
   return (
-    <div>
-      {userData && <h1>{userData.name}&apos;s Dashboard</h1>}
-      {userData === null && <p>Loading...</p>}
+    <div >
+      <h1 className='text-3xl'>My Dashboard</h1>
     </div>
   );
 }

@@ -20,8 +20,21 @@ const config: Config = {
 
       'black': 'hsl(0, 0%, 0%)',
 
-      'transparent': 'rgba(0, 0, 0, 0)'    
+      'transparent': 'rgba(0, 0, 0, 0)',
+      
+      'yellow': '#ffc43d',
+
+      'green': '#11B136',
+
+      'gray': '#959595'
     }
+  },
+  keyframes: {
+    shimmer: {
+      '100%': {
+        transform: 'translateX(100%)',
+      },
+    },
   },
   plugins: [],
 };

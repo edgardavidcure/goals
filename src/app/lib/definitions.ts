@@ -1,5 +1,6 @@
 
 export interface Goal{
+  _id: string;
   userId: string;
   title: string;
   categoryId: string;
@@ -96,4 +97,8 @@ export interface User {
     amount: number;
     status: 'pending' | 'paid';
   };
+
+  export interface CardWrapperProps {
+    userId: string | null | undefined;
+  }
   
