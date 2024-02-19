@@ -3,7 +3,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { Goal } from '@/app/lib/definitions';
-import InvoiceStatus from './status';
+import GoalStatus from './status';
 import Link from 'next/link';
 export default function LatestGoals({ userId }: { userId: string }) {
     const [latestGoals, setLatestGoals] = useState<Goal[]>([]);
@@ -65,7 +65,7 @@ export default function LatestGoals({ userId }: { userId: string }) {
                 <p
                   className={` truncate text-sm font-medium md:text-base`}
                 >
-                  <InvoiceStatus status={goal.status} />
+                  <GoalStatus status={goal.status} />
                 </p>
               </Link>
             );

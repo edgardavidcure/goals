@@ -26,7 +26,9 @@ const config: Config = {
 
       'green': '#11B136',
 
-      'gray': '#959595'
+      'gray': '#959595',
+
+      'red': '#fb3640'
     }
   },
   keyframes: {

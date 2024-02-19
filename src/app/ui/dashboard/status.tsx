@@ -1,7 +1,7 @@
 import { CheckIcon, ClockIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
-export default function InvoiceStatus({ status }: { status: string }) {
+export default function GoalStatus({ status }: { status: string }) {
   return (
     <span
       className={clsx(
@@ -16,20 +16,23 @@ export default function InvoiceStatus({ status }: { status: string }) {
     >
       {status === 'ToDo' ? (
         <>
+        <ClockIcon className="mr-1 w-4 text-white" />
           Pending
-          <ClockIcon className="ml-1 w-4 text-white" />
+          
         </>
       ) : null}
       {status === 'Completed' ? (
         <>
+        <CheckIcon className="mr-1 w-4 text-white" />
           Completed
-          <CheckIcon className="ml-1 w-4 text-white" />
+          
         </>
       ) : null}
       {status === 'Doing' ? (
         <>
+        <RocketLaunchIcon className="mr-1 w-4 text-white" />
           In Progress
-          <RocketLaunchIcon className="ml-1 w-4 text-white" />
+          
         </>
       ) : null}
     </span>

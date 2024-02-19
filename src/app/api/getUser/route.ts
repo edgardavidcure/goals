@@ -15,17 +15,25 @@ export async function POST(req:Request){
 	try{
         await dbConnect()
 
-        console.log(email)
         const user = await getUserByEmail(email)
-        console.log(user);
-        return new Response(JSON.stringify(user),{
+		if (user){
+			return new Response(JSON.stringify(user),{
                 status:200,
                 statusText:'OK',
                 headers: {
                 'Content-Type': 'application/json',
                 }
-        })
-
+        }) 
+		} else {
+			return new Response(JSON.stringify({message: 'User not found'}),{
+                status:404,
+                statusText:'NOT FOUND',
+                headers: {
+                'Content-Type': 'application/json',
+                }
+        }) 
+		}
+        
 	} catch(error){
 		console.error('Error creating product profile:', error);
 		return new Response(JSON.stringify({ message: 'Product failed to be created.' }),{

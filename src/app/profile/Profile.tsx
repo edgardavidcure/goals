@@ -6,7 +6,7 @@ import AccountCreation from "../ui/users/accountCreation";
 import { useState, useEffect } from 'react';
 
 export default function Profile() {
-	const [ userExists, setUserExists ] = useState();
+	const [ userExists, setUserExists ] = useState(Boolean);
 	const [ isDataFetched, setIsDataFetched ] = useState({isSet: false});
 	const { data: session } = useSession();
 
@@ -17,17 +17,20 @@ export default function Profile() {
 			try {
                 if (session?.user?.email) {
                   const user = await fetch('/api/getUser', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(session?.user?.email)});
+                  console.log(user)
+
                   if (!user.ok) {
                     console.log(isDataFetched)
                     console.log(userExists)
                     setIsDataFetched({ isSet: true });
+                    console.log("hello")
+                    // setUserExists(false);
 
-                    throw new Error('Failed to fetch user data');
 
                   } else {
                     const response = await user.json();
                     setIsDataFetched({ isSet: true });
-                    setUserExists(response);
+                    setUserExists(true);
                     if (response) {
                       router.push(`/dashboard/${response.email}`)
                     }
@@ -47,14 +50,12 @@ export default function Profile() {
         const { name, email, image } = session.user;
     
         return isDataFetched.isSet ? (
-          userExists ? <h1 className='text-center pt-10'>User Exists</h1> : <AccountCreation name={name} image={image} email={email} />
+          !userExists && <AccountCreation name={name} image={image} email={email} />
         ) : (
           <h1 className='text-center pt-10'>Loading...</h1>
         );
       } else {
-        return (
-          window.location.href = "/"
-        );
+        router.push('/')
       }
     
 }

@@ -1,13 +1,10 @@
 import { User } from "@/app/lib/definitions";
 import { Metadata } from 'next';
-import { redirect } from "next/navigation";
-
 export const metadata: Metadata = {
   title: 'Account Creation',
 };
 
 export default function AccountCreation({name, email, image} : User) {
-
 	const formSubmission = async(e:any) => {
 		e.preventDefault()
 
@@ -29,7 +26,9 @@ export default function AccountCreation({name, email, image} : User) {
 				},
 				body: JSON.stringify({User: userData})
 			})
-			// window.location.href = "/profile"
+			if (results){
+				window.location.reload()
+			}
 		}catch(error:any){
 			console.error({message:'Error: could not create new user.'})
 		}
@@ -51,9 +50,6 @@ export default function AccountCreation({name, email, image} : User) {
 
 							<label className="w-full" htmlFor="email" >Email:</label>
 							<input className="w-80 rounded" name="email" type="email" id="email" value={email} readOnly required/>
-
-							<label className="w-full" htmlFor="description">About You:</label>
-							<textarea className="w-80 rounded" name="description" id="description"></textarea>
 
 							<label className="w-full" htmlFor="image" >Profile Picture:</label>
 							<input className="w-80 rounded" name="image" type="text" id="image" value={image} readOnly required/>

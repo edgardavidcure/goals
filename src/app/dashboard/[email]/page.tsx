@@ -16,7 +16,7 @@ export default function Page({ params }: { params: { email: string } }) {
     const fetchData = async () => {
       if (session) {
         setUserEmail(session.user?.email || null);
-        setLoading(false); // Set loading to false once the user email is set
+        setLoading(false); 
       } else {
         redirect("/");
       }
@@ -25,9 +25,9 @@ export default function Page({ params }: { params: { email: string } }) {
     fetchData();
   }, [session]);
 
-  if (loading) {
-    return <DashboardSkeleton />; // Render the loading skeleton while waiting for user data
-  }
+  // if (loading) {
+  //   return <DashboardSkeleton />; // Render the loading skeleton while waiting for user data
+  // }
 
   if (userEmail) {
     return (
@@ -43,5 +43,5 @@ export default function Page({ params }: { params: { email: string } }) {
     );
   }
 
-  return null; // You might want to handle the case when userEmail is null differently
+  return null; 
 }
