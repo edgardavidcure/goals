@@ -106,9 +106,9 @@ export function GoalComponent({ params }: { params: { id: string } }) {
         <>
            
             <div className='flex relative bg-extra-light-orange w-full py-10 px-6 rounded-xl'>
-              <div className='flex gap-2 absolute right-0 me-6'>
-                <button onClick={() => router.push(`/dashboard/goals/${goalId}/edit`)} className='w-10 p-2 rounded-lg  hover:bg-light-orange'><PencilIcon/></button>
-                <button onClick={openDeleteModal} className='w-10 p-2 rounded-lg  hover:bg-red hover:text-white'><TrashIcon/></button>
+              <div className='flex gap-2 absolute right-0 top-9 me-4 md:me-6'>
+                <button onClick={() => router.push(`/dashboard/goals/${goalId}/edit`)} className='w-9 p-2 rounded-lg md:w-10 hover:bg-light-orange'><PencilIcon/></button>
+                <button onClick={openDeleteModal} className='w-9 p-2 rounded-lg md:w-10 hover:bg-red hover:text-white'><TrashIcon/></button>
               </div>
               <GoalDisplay goalData={goalData} />
               {isDeleteModalOpen && (
@@ -117,7 +117,7 @@ export function GoalComponent({ params }: { params: { id: string } }) {
                     <p className='text-start'>Are you sure you want to delete the goal?</p>
                     <div className="flex justify-end mt-4">
                       <button onClick={handleDeleteGoal} className="mr-2 bg-red text-white px-4 py-2 rounded-lg hover:bg-opacity-80 active:opacity-40">
-                        Confirm
+                        Delete
                       </button>
                       <button onClick={closeDeleteModal} className="bg-gray text-white px-4 py-2 rounded-lg active:bg-opacity-80">
                         Cancel

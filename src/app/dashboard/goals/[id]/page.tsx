@@ -33,7 +33,6 @@ export default function Page({ params }: { params: { id: string } }) {
       <div className='flex flex-col m-5'>
         <h1 className='text-3xl'>Goal Details</h1>
         <GoalComponent params={params} />
-        <Footer/>
 
       </div>
     );

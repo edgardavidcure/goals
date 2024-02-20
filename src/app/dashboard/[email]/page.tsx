@@ -12,7 +12,6 @@ export default function Page({ params }: { params: { email: string } }) {
           <CardWrapper params={params} />
         </div>
         <LatestGoals params={params}/>
-      <Footer/>
 
       </div>
     );

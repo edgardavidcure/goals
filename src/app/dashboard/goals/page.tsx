@@ -6,6 +6,7 @@ import DashboardSkeleton from '@/app/ui/skeletons';
 import Footer from '@/app/ui/footer';
 import { GoalComponent } from '@/app/ui/goals/goalComponent';
 import { Goal } from '@/app/lib/definitions';
+import { PlusIcon } from '@heroicons/react/24/outline';
 export default function Page({ params }: { params: { id: string } }) {
   const { data: session } = useSession();
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -49,11 +50,14 @@ export default function Page({ params }: { params: { id: string } }) {
   if (!loading) {
     return (
       <div className='flex flex-col m-5 gap-10'>
+        
         <h1 className='text-3xl mb-0'>{session?.user?.name} Goals</h1>
+        <div className='w-full flex justify-center'>
+          <button onClick={() => router.push('/dashboard/create')} className='w-40 bg-dark-blue rounded-lg p-4 text-white flex items-center gap-2 justify-evenly'><PlusIcon className='w-5 text-white'/> Create Goal</button>
+        </div>
         {goals ? goals.map((goal) => (
           <GoalComponent params={{id:goal._id}} key={goal._id} />
         )) : <p>No Goals Added Yet</p>}
-        <Footer />
       </div>
     );
   }
