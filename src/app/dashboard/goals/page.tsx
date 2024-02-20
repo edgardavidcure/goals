@@ -5,35 +5,55 @@ import { useRouter } from 'next/navigation';
 import DashboardSkeleton from '@/app/ui/skeletons';
 import Footer from '@/app/ui/footer';
 import { GoalComponent } from '@/app/ui/goals/goalComponent';
+import { Goal } from '@/app/lib/definitions';
 export default function Page({ params }: { params: { id: string } }) {
   const { data: session } = useSession();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [goals, setGoals] = useState<Array<Goal> | undefined>(undefined)
   const router = useRouter()
 
   useEffect(() => {
     const fetchData = async () => {
       if (session) {
-        setUserEmail(session.user?.email || null);
-        setLoading(false); // Set loading to false once the user email is set
+        const userId = session?.user?.email || null;
+        setUserEmail(userId);
+        setLoading(false); 
+        const response = await fetch('/api/getAllGoals', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify( userId ),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error fetching goal data: ${response.status} - ${response.statusText}`);
+        }
+
+        const goalData = await response.json();
+        console.log(goalData)
+        setGoals(goalData)
       } else {
         router.push("/");
       }
     };
 
     fetchData();
-  }, [session, router]);
+  }, []);
+
+
 
   if (loading) {
     return <DashboardSkeleton />; 
   }
 
-  if (userEmail) {
+  if (!loading) {
     return (
-      <div className='flex flex-col m-5'>
-        <GoalComponent params={params} />
-        <Footer/>
-
+      <div className='flex flex-col m-5 gap-10'>
+        <h1 className='text-3xl mb-0'>{session?.user?.name} Goals</h1>
+        {goals ? goals.map((goal) => (
+          <GoalComponent params={{id:goal._id}} key={goal._id} />
+        )) : <p>No Goals Added Yet</p>}
+        <Footer />
       </div>
     );
   }

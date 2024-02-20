@@ -4,10 +4,9 @@ import { useSession } from 'next-auth/react';
 
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
-import clsx from 'clsx';
 import { GoalDisplay } from '../goal';
 
-
+import { GoalSkeleton } from '../skeletons';
 
 
 
@@ -76,36 +75,39 @@ export function GoalComponent({ params }: { params: { id: string } }) {
       if (!userId) {
         throw new Error('User is not authenticated.');
       }
-
+  
       const response = await fetch('/api/deleteGoal', {
-        method: 'PUT',
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ goalId, userId }),
       });
-
+  
       if (!response.ok) {
         throw new Error(`Error updating goal: ${response.status} - ${response.statusText}`);
       }
-
+  
       setGoalData(null);
-      console.log('Goal deleted!');
       closeDeleteModal();
-      router.push(`/dashboard/${session?.user?.email}`)
     } catch (error) {
       console.error('Error deleting goal:', error);
     }
   };
+  
+  useEffect(() => {
+    // Check if goalData is set to null, and if so, navigate to the desired location
+    if (goalData === null) {
+      router.push(`/dashboard/${session?.user?.email}`);
+    }
+  }, [goalData, router, session]);
 
   return (
     <div>
       {goalData ? (
         <>
-          {session?.user?.email === goalData.userId && action === 'edit' ? (
-            router.push(`/dashboard/goals/${goalId}/edit`)
-          ) : (
+           
             <div className='flex relative bg-extra-light-orange w-full py-10 px-6 rounded-xl'>
               <div className='flex gap-2 absolute right-0 me-6'>
-                <button onClick={() => setAction('edit')} className='w-10 p-2 rounded-lg  hover:bg-light-orange'><PencilIcon/></button>
+                <button onClick={() => router.push(`/dashboard/goals/${goalId}/edit`)} className='w-10 p-2 rounded-lg  hover:bg-light-orange'><PencilIcon/></button>
                 <button onClick={openDeleteModal} className='w-10 p-2 rounded-lg  hover:bg-red hover:text-white'><TrashIcon/></button>
               </div>
               <GoalDisplay goalData={goalData} />
@@ -126,10 +128,10 @@ export function GoalComponent({ params }: { params: { id: string } }) {
               )}
             </div>
             
-          )}
+          
         </>
       ) : (
-        <p>Loading...</p>
+        <GoalSkeleton/>
       )}
     </div>
   );
