@@ -16,7 +16,7 @@ export async function POST(req:Request){
 	try{
         await dbConnect()
 
-        const data = await fetchCardData(user.userId)
+        const data = await fetchCardData(user.email)
         console.log(data);
         return new Response(JSON.stringify(data),{
                 status:200,

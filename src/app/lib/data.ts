@@ -80,8 +80,8 @@ export async function fetchCardData(userId: string) {
 
   try {
     const goalsCompletedPromise = getTotalCountGoalsByStatus(userId, 'Completed')
-    const goalsPendingPromise = getTotalCountGoalsByStatus(userId, 'ToDo')
-    const goalsInProgressPromise = getTotalCountGoalsByStatus(userId, 'Doing')
+    const goalsPendingPromise = getTotalCountGoalsByStatus(userId, 'Pending')
+    const goalsInProgressPromise = getTotalCountGoalsByStatus(userId, 'InProgress')
     const totalNumberOfGoalsPromise = getTotalNumberOfGoals(userId);
 
     const data = await Promise.all([

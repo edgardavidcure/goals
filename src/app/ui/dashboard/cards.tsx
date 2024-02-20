@@ -4,23 +4,26 @@ import { ClockIcon, CheckCircleIcon, RocketLaunchIcon, RectangleStackIcon } from
 import { CardSkeleton, CardsSkeleton } from '@/app/ui/skeletons';
 
 const iconMap = {
-  completed: CheckCircleIcon,
-  inProgress: RocketLaunchIcon,
-  pending: ClockIcon,
+  Completed: CheckCircleIcon,
+  InProgress: RocketLaunchIcon,
+  Pending: ClockIcon,
   total: RectangleStackIcon,
 };
 
-export function CardWrapper({ userId }: { userId: string }) {
+export function CardWrapper({ params }: { params: {email: string} }) {
   const [cardsData, setCardsData] = useState<any>();
   const [loading, setLoading] = useState(true);
+  const userEmail = params.email;
+  const email = decodeURIComponent(userEmail);
 
   useEffect(() => {
+    console.log(cardsData)
     const getCardData = async () => {
       try {
         const cardsResponse = await fetch('/api/getCardData', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId }),
+          body: JSON.stringify({ email }),
         });
 
         if (!cardsResponse.ok) {
@@ -38,7 +41,7 @@ export function CardWrapper({ userId }: { userId: string }) {
     };
 
     getCardData();
-  }, [userId]);
+  }, [email]);
 
   if (loading) {
     return <CardsSkeleton />;
@@ -46,9 +49,9 @@ export function CardWrapper({ userId }: { userId: string }) {
 
   return (
     <>
-      <Card title="Pending" value={cardsData.totalPendingGoals} type="pending" />
-      <Card title="In Progress" value={cardsData.totalInProgressGoals} type="inProgress" />
-      <Card title="Completed" value={cardsData.totalCompletedGoals} type="completed" />
+      <Card title="Pending" value={cardsData.totalPendingGoals} type="Pending" />
+      <Card title="In Progress" value={cardsData.totalInProgressGoals} type="InProgress" />
+      <Card title="Completed" value={cardsData.totalCompletedGoals} type="Completed" />
       <Card title="Total Goals" value={cardsData.totalNumberOfGoals} type="total" />
     </>
   );
@@ -61,7 +64,7 @@ export function CardWrapper({ userId }: { userId: string }) {
   }: {
     title: string;
     value: number | string;
-    type: 'completed' | 'total' | 'pending' | 'inProgress';
+    type: 'Completed' | 'total' | 'Pending' | 'InProgress';
   }) {
     const Icon = iconMap[type];
   

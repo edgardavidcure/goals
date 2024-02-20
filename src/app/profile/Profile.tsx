@@ -4,6 +4,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import AccountCreation from "../ui/users/accountCreation";
 import { useState, useEffect } from 'react';
+import DashboardSkeleton from "../ui/skeletons";
+import Loader from "../ui/loader";
 
 export default function Profile() {
 	const [ userExists, setUserExists ] = useState(Boolean);
@@ -52,7 +54,10 @@ export default function Profile() {
         return isDataFetched.isSet ? (
           !userExists && <AccountCreation name={name} image={image} email={email} />
         ) : (
-          <h1 className='text-center pt-10'>Loading...</h1>
+          <div className='w-full flex justify-center items-center mt-20'>
+            <Loader/>
+
+          </div>
         );
       } else {
         router.push('/')

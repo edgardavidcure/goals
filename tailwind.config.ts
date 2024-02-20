@@ -28,7 +28,12 @@ const config: Config = {
 
       'gray': '#959595',
 
-      'red': '#fb3640'
+      'red': '#fb3640',
+
+      'cgreen': '#b4c424',
+      'corange': '#f78c3b',
+      'cblue': '#00bbda',
+      'cpink': '#ed5672'
     }
   },
   keyframes: {
@@ -38,6 +43,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 };
 export default config;

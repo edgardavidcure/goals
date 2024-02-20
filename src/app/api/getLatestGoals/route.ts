@@ -15,7 +15,7 @@ export async function POST(req:Request){
 	try{
         await dbConnect()
         console.log(user.userId)
-        const data = await getLatestGoals(user.userId)
+        const data = await getLatestGoals(user.email)
         console.log(data);
         return new Response(JSON.stringify(data),{
                 status:200,
