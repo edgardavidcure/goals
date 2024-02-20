@@ -14,7 +14,7 @@ function AuthButton({ session }: AuthButtonProps) {
 	  console.log(session);
 	  return (
 		<>
-		  <button className="text-white bg-dark-blue w-10 p-2 rounded-lg hover:bg-opacity-50 hover:text-white" aria-label="Breadcrumb" onClick={() => signOut()}><ArrowRightStartOnRectangleIcon className="w-fit"/></button>
+		  <button className="text-white bg-dark-blue w-auto p-2 rounded-lg hover:bg-opacity-50 hover:text-white" onClick={() => signOut()}><ArrowRightStartOnRectangleIcon className="w-6"/></button>
 		</>
 	  );
 	} else {
