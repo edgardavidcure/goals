@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import { ClockIcon, CheckCircleIcon, RocketLaunchIcon, RectangleStackIcon } from '@heroicons/react/24/outline';
 import { CardSkeleton, CardsSkeleton } from '@/app/ui/skeletons';
-
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 const iconMap = {
   Completed: CheckCircleIcon,
   InProgress: RocketLaunchIcon,
@@ -15,6 +16,7 @@ export function CardWrapper({ params }: { params: {email: string} }) {
   const [loading, setLoading] = useState(true);
   const userEmail = params.email;
   const email = decodeURIComponent(userEmail);
+  const {data: session} = useSession()
 
   useEffect(() => {
     const getCardData = async () => {
@@ -45,15 +47,20 @@ export function CardWrapper({ params }: { params: {email: string} }) {
   if (loading) {
     return <CardsSkeleton />;
   }
-
-  return (
-    <>
-      <Card title="Pending" value={cardsData.totalPendingGoals} type="Pending" />
-      <Card title="In Progress" value={cardsData.totalInProgressGoals} type="InProgress" />
-      <Card title="Completed" value={cardsData.totalCompletedGoals} type="Completed" />
-      <Card title="Total Goals" value={cardsData.totalNumberOfGoals} type="total" />
-    </>
-  );
+  if (email === session?.user?.email){
+    return (
+      <>
+        <Card title="Pending" value={cardsData.totalPendingGoals} type="Pending" />
+        <Card title="In Progress" value={cardsData.totalInProgressGoals} type="InProgress" />
+        <Card title="Completed" value={cardsData.totalCompletedGoals} type="Completed" />
+        <Card title="Total Goals" value={cardsData.totalNumberOfGoals} type="total" />
+      </>
+    );
+  } else {
+    const router = useRouter()
+    router.push(`/dashboard/`)
+    return null
+  }
 }
   
   export function Card({
@@ -66,7 +73,7 @@ export function CardWrapper({ params }: { params: {email: string} }) {
     type: 'Completed' | 'total' | 'Pending' | 'InProgress';
   }) {
     const Icon = iconMap[type];
-  
+    
     return (
       <div className="rounded-xl bg-extra-light-orange p-2 shadow-sm w-full max-w-72">
         <div className="flex p-4">
