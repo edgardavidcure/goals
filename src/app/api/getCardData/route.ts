@@ -1,7 +1,6 @@
 import { fetchCardData } from '@/app/lib/data';
 import dbConnect from '@/app/lib/mongodb';
 export async function POST(req:Request){
-    console.log("I reached this point")
 
 	if(req.method !== 'POST'){
 		return new Response(JSON.stringify({ message: 'Method Not Allowed' }),{
@@ -17,7 +16,6 @@ export async function POST(req:Request){
         await dbConnect()
 
         const data = await fetchCardData(user.email)
-        console.log(data);
         return new Response(JSON.stringify(data),{
                 status:200,
                 statusText:'OK',

@@ -14,9 +14,7 @@ export async function POST(req:Request){
     const goal = await req.json()
 	try{
         await dbConnect()
-        console.log(goal)
         const data = await getGoal(goal.userId, goal.goalId)
-        console.log(data);
         return new Response(JSON.stringify(data),{
                 status:200,
                 statusText:'OK',

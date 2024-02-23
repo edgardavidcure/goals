@@ -31,7 +31,6 @@ export default function Page({ params }: { params: { id: string } }) {
         }
 
         const goalData = await response.json();
-        console.log(goalData)
         setGoals(goalData)
       } else {
         router.push("/");

@@ -16,7 +16,6 @@ export default function AccountCreation({name, email, image} : User) {
 			email: formValues.get('email'),
             image: formValues.get('image')
 		}
-        console.log(userData)
 		
 
 		try{

@@ -17,7 +17,6 @@ export function CardWrapper({ params }: { params: {email: string} }) {
   const email = decodeURIComponent(userEmail);
 
   useEffect(() => {
-    console.log(cardsData)
     const getCardData = async () => {
       try {
         const cardsResponse = await fetch('/api/getCardData', {

@@ -6,11 +6,10 @@ export async function POST(
   try {
     await dbConnect()
     const {User} = await req.json()
-    console.log(User)
 
     const process = await createUser(User);
     if (process) {
-      return new Response(JSON.stringify({ message: 'Artisan was created.' }),{
+      return new Response(JSON.stringify({ message: 'User was created.' }),{
         status:200,
         statusText:'OK',
         headers: {
@@ -20,7 +19,7 @@ export async function POST(
     }
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ message: 'Artisan failed to be created.' }),{
+    return new Response(JSON.stringify({ message: 'User failed to be created.' }),{
       status:500,
       statusText:'INTERNAL SERVER ERROR',
       headers: {

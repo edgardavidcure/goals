@@ -58,7 +58,6 @@ export async function getUserByEmail(userEmail: string): Promise<User | null> {
   noStore();
     try {
         const user = await UserModel.findOne({email: userEmail})
-        console.log(user)
         return user
     } catch (error) {
         console.error('Error finding user:', error);

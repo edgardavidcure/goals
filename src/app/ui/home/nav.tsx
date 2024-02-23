@@ -11,7 +11,6 @@ interface AuthButtonProps {
   
 function AuthButton({ session }: AuthButtonProps) {
 	if (session) {
-	  console.log(session);
 	  return (
 		<>
 		  <button className="text-white bg-dark-blue w-auto p-2 rounded-lg hover:bg-opacity-50 hover:text-white" onClick={() => signOut()}><ArrowRightStartOnRectangleIcon className="w-6"/></button>

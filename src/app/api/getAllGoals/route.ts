@@ -12,7 +12,6 @@ export async function POST(req:Request){
 		});
 	}
     const userId = await req.json()
-    console.log(userId);
 
 	try{
         await dbConnect()

@@ -19,13 +19,9 @@ export default function Profile() {
 			try {
                 if (session?.user?.email) {
                   const user = await fetch('/api/getUser', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(session?.user?.email)});
-                  console.log(user)
 
                   if (!user.ok) {
-                    console.log(isDataFetched)
-                    console.log(userExists)
                     setIsDataFetched({ isSet: true });
-                    console.log("hello")
 
 
                   } else {
