@@ -17,6 +17,7 @@ export function CardWrapper({ params }: { params: {email: string} }) {
   const userEmail = params.email;
   const email = decodeURIComponent(userEmail);
   const {data: session} = useSession()
+  const router = useRouter()
 
   useEffect(() => {
     const getCardData = async () => {
@@ -57,7 +58,6 @@ export function CardWrapper({ params }: { params: {email: string} }) {
       </>
     );
   } else {
-    const router = useRouter()
     router.push(`/dashboard/`)
     return null
   }

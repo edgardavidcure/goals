@@ -15,6 +15,7 @@ export default function LatestGoals({ params }: { params: { email: string } }) {
   const [loading, setLoading] = useState(true);
   const userEmail = params.email;
   const email = decodeURIComponent(userEmail);
+  const router = useRouter()
 
   useEffect(() => {
     const fetchLatestGoals = async () => {
@@ -88,7 +89,6 @@ export default function LatestGoals({ params }: { params: { email: string } }) {
       </div>
     );
   } else {
-    const router = useRouter()
     router.push(`/dashboard/${email}`)
     return null
   }
