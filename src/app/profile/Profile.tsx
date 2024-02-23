@@ -26,7 +26,6 @@ export default function Profile() {
                     console.log(userExists)
                     setIsDataFetched({ isSet: true });
                     console.log("hello")
-                    // setUserExists(false);
 
 
                   } else {
@@ -40,7 +39,6 @@ export default function Profile() {
                 }
               } catch (error) {
                 console.error('Failed to fetch user data', error);
-                // Handle error appropriately, e.g., redirect or display an error message
               }
 		}
 

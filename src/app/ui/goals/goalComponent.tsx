@@ -18,7 +18,6 @@ export function GoalComponent({ params }: { params: { id: string } }) {
     title: '',
     categoryId: '',
     description: '',
-    startDate: '',
     status: '',
   });
   const router = useRouter()
@@ -53,7 +52,6 @@ export function GoalComponent({ params }: { params: { id: string } }) {
           title: goalData.title,
           categoryId: goalData.categoryId,
           description: goalData.description,
-          startDate: goalData.startDate,
           status: goalData.status,
         });
       } catch (error) {
@@ -105,14 +103,14 @@ export function GoalComponent({ params }: { params: { id: string } }) {
       {goalData ? (
         <>
            
-            <div className='flex relative bg-extra-light-orange w-full py-10 px-6 rounded-xl'>
-              <div className='flex gap-2 absolute right-0 top-9 me-4 md:me-6'>
-                <button onClick={() => router.push(`/dashboard/goals/${goalId}/edit`)} className='w-9 p-2 rounded-lg md:w-10 hover:bg-light-orange'><PencilIcon/></button>
-                <button onClick={openDeleteModal} className='w-9 p-2 rounded-lg md:w-10 hover:bg-red hover:text-white'><TrashIcon/></button>
+            <div className='flex relative bg-extra-light-orange w-full py-6 px-6 rounded-xl'>
+              <div className='flex gap-2 absolute right-0 top-6 me-4 md:me-6'>
+                <button aria-label='Edit' onClick={() => router.push(`/dashboard/goals/${goalId}/edit`)} className='w-9 p-2 rounded-lg md:w-10 hover:bg-light-orange'><PencilIcon/></button>
+                <button aria-label='Delete' onClick={openDeleteModal} className='w-9 p-2 rounded-lg md:w-10 hover:bg-red hover:text-white'><TrashIcon/></button>
               </div>
               <GoalDisplay goalData={goalData} />
               {isDeleteModalOpen && (
-                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray bg-opacity-50">
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray bg-opacity-50 z-10">
                   <div className="bg-white p-6 rounded-lg">
                     <p className='text-start'>Are you sure you want to delete the goal?</p>
                     <div className="flex justify-end mt-4">

@@ -2,10 +2,11 @@ import { Goal, User } from "./definitions";
 import GoalModel from "../models/Goal";
 import UserModel from "../models/User"
 import { unstable_noStore as noStore } from 'next/cache';
-import { CardWrapperProps } from "./definitions";
+
+
 export async function findGoalsByUserId(userId: string): Promise<Goal[] | null> {
     try {
-      const goals = await GoalModel.find({ userId }).exec();
+      const goals = await GoalModel.find({ userId }).sort({createdAt: -1});
       return goals;
     } catch (error) {
       console.error('Error finding goals by user ID:', error);
@@ -15,7 +16,7 @@ export async function findGoalsByUserId(userId: string): Promise<Goal[] | null> 
 
 export async function findGoalById(id: string): Promise<Goal | null> {
     try {
-      const goal = await GoalModel.findById({ id }).exec();
+      const goal = await GoalModel.findById({ id });
       return goal;
     } catch (error) {
       console.error('Error finding goals by user ID:', error);

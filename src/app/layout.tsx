@@ -4,8 +4,6 @@ import "./globals.css";
 import Nav from "./ui/home/nav";
 import { getServerSession }  from 'next-auth';
 import SessionProvider from "../app/session/SessionProvider"
-import Footer from "./ui/footer";
-// import { authConfig } from "../../auth.config";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

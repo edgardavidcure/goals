@@ -3,12 +3,10 @@ import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-interface GoalEditFormProps {
-    editedValues: any;
-    setEditedValues: React.Dispatch<React.SetStateAction<any>>;
-    setAction: React.Dispatch<React.SetStateAction<any>>;
-}
-// const { data: session } = useSession();
+import { GoalSchema } from "../lib/actions";
+import { useFormState } from 'react-dom';
+import Link from "next/link";
+
 
 export default  function GoalEditForm({goalId} : {goalId: string}) {
     const radioOptions = [
@@ -28,7 +26,6 @@ export default  function GoalEditForm({goalId} : {goalId: string}) {
       title: '',
       categoryId: '',
       description: '',
-      startDate: '',
       status: '',
     });
     const router = useRouter()
@@ -62,7 +59,6 @@ export default  function GoalEditForm({goalId} : {goalId: string}) {
             title: goalData.title,
             categoryId: goalData.categoryId,
             description: goalData.description,
-            startDate: goalData.startDate,
             status: goalData.status,
           });
         } catch (error) {
@@ -79,7 +75,20 @@ export default  function GoalEditForm({goalId} : {goalId: string}) {
           if (!userId) {
             throw new Error('User is not authenticated.');
           }
-    
+
+          const validationResult = GoalSchema.safeParse({
+            title: editedValues.title,
+            categoryId: editedValues.categoryId,
+            description: editedValues.description,
+            status: editedValues.status
+          });
+          if (!validationResult.success) {
+            return {
+              errors: validationResult.error.flatten().fieldErrors,
+              message: 'Missing Fields. Failed to Update Goal.',
+            };
+            }
+
           const response = await fetch('/api/editGoal', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -97,14 +106,16 @@ export default  function GoalEditForm({goalId} : {goalId: string}) {
           console.error('Error updating goal:', error);
         }
       };
-  
+      const initialState: { message: string; errors: { title?: string[] , description?: string[], status?: string[], categoryId?: string[]} } = { message: '', errors: {} };
+      const [state, dispatch] = useFormState(handleEditGoal, initialState);
   
     return (
       <div className='flex flex-col relative gap-10 bg-extra-light-orange w-full py-10 px-6 rounded-xl'>
         <div>
         <h2 className='text-2xl mb-0'>Update your goal</h2>
-        <p className='mt-0 text-gray text-sm'>Make changes to your goal</p>
+        <p className='mt-0 text-black text-sm font-extralight italic'>Make changes to your goal</p>
         </div>
+    <form action={dispatch} className="flex flex-col gap-5">
         
         <div className='flex flex-col'>
           <label htmlFor='title' className='text-lg font-bold'>Title <span>*</span></label>
@@ -115,8 +126,16 @@ export default  function GoalEditForm({goalId} : {goalId: string}) {
             className='bg-white border border-light-orange text-black text-sm rounded-lg focus:ring-dark-blue focus:border-dark-blue block w-full p-2.5  placeholder:italic placeholder:font-light'
             id='title'
             placeholder='Write your goal title here...'
-            required
+            aria-describedby="title-error"
           />
+          <div id="title-error" aria-live="polite" aria-atomic="true">
+            {state?.errors?.title &&
+                state.errors.title.map((error: string) => (
+                    <p className="mt-2 text-sm text-red italic" key={error}>
+                    {error}
+                    </p>
+                ))}
+        </div>
         </div>
         <div className='flex flex-col'>
           <label htmlFor="description" className='text-lg font-bold'>Description</label>
@@ -140,6 +159,7 @@ export default  function GoalEditForm({goalId} : {goalId: string}) {
                 checked={editedValues.status === option.value}
                 onChange={() => setEditedValues({ ...editedValues, status: option.value })}
                 id={option.value}
+                aria-describedby="status-error"
                 className={clsx('w-4 h-4 bg-white border-gray', 
                 {
                   'text-green focus:ring-white': option.value === 'Completed',
@@ -159,7 +179,16 @@ export default  function GoalEditForm({goalId} : {goalId: string}) {
               
             ))}
           </div>
+          <div id="status-error" aria-live="polite" aria-atomic="true">
+          {state?.errors?.status &&
+          state.errors.status.map((error: string) => (
+            <p className="mt-2 text-sm text-red italic" key={error}>
+              {error}
+            </p>
+          ))}
+          </div>
         </div>
+
   
         <div>
           <h1 className='text-lg font-bold m-0'>Category <span>*</span></h1>
@@ -172,6 +201,8 @@ export default  function GoalEditForm({goalId} : {goalId: string}) {
                     checked={editedValues.categoryId === option.value}
                     onChange={() => setEditedValues({ ...editedValues, categoryId: option.value })}
                     id={option.value}
+                    aria-describedby="categoryId-error"
+
                     className={clsx('w-4 h-4 bg-white border-gray', 
                   {
                     'text-cpink focus:ring-white': option.value === 'Physical',
@@ -187,11 +218,31 @@ export default  function GoalEditForm({goalId} : {goalId: string}) {
               </div>
             ))}
           </div>
-        </div>
-        <div className='flex gap-2 m-auto'>
-              <button onClick={() => router.push(`/dashboard/goals/${goalId}`)} className='w-fit p-2 rounded-lg bg-gray text-white hover:opacity-80'>Cancel</button>
-              <button onClick={() => handleEditGoal()} className='w-fit p-2 rounded-lg bg-dark-blue text-white hover:opacity-80'>Update Goal</button>
+          <div id="categoryId-error" aria-live="polite" aria-atomic="true">
+          {state?.errors?.categoryId &&
+          state.errors.categoryId.map((error: string) => (
+            <p className="mt-2 text-sm text-red italic" key={error}>
+              {error}
+            </p>
+          ))}
           </div>
+        </div>
+        <div aria-live="polite" aria-atomic="true">
+          {state?.message ? (
+            <p className="mt-2 text-sm text-red italic">{state?.message}</p>
+          ) : null}
+        </div>
+        <div className='flex gap-2 items-center justify-center'>
+        <Link
+            href={`/dashboard/goals/${goalId}`}
+            className='w-fit p-2 rounded-lg bg-extra-light-orange text-black hover:bg-light-orange'
+            >    
+            Cancel
+        </Link>
+              <button type="submit" className='w-fit p-2 rounded-lg bg-dark-blue text-white hover:opacity-80'>Update Goal</button>
+          </div>
+      </form>
+
       </div>
     );
   };
