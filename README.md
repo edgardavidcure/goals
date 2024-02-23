@@ -23,21 +23,19 @@ The Goal Tracking App is designed to help users set, monitor, and achieve their 
 - **Latest Goals Display:** The dashboard displays the latest goals with their titles, categories, and statuses.
 - **Responsive Design:** The app is responsive, ensuring a seamless experience across various devices.
 
-## Getting Started
-
-# Clone the repository
+## Clone the repository
 
 git clone https://github.com/edgardavidcure/goals.git
 
-# Navigate to the project folder
+## Navigate to the project folder
 
 cd goals
 
-# Install dependencies
+## Install dependencies
 
 npm install
 
-# Start the development server
+## Start the development server
 
 npm run dev
 
