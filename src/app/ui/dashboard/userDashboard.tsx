@@ -1,8 +1,8 @@
-'use client'
-import { getSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Loader from '../loader';
+"use client";
+import { getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Loader from "../loader";
 
 export function UserComponent({ params }: { params: { email: string } }) {
   const [userData, setUserData] = useState<any>();
@@ -16,14 +16,16 @@ export function UserComponent({ params }: { params: { email: string } }) {
       const session = await getSession();
 
       try {
-        const userResponse = await fetch('/api/getUser', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const userResponse = await fetch("/api/getUser", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(decoded),
         });
 
         if (!userResponse.ok) {
-          console.error(`Error fetching user data: ${userResponse.status} - ${userResponse.statusText}`);
+          console.error(
+            `Error fetching user data: ${userResponse.status} - ${userResponse.statusText}`,
+          );
           setUserData(false);
           setLoading(false);
           return;
@@ -36,7 +38,7 @@ export function UserComponent({ params }: { params: { email: string } }) {
           setUserData(false);
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
         setUserData(false);
       } finally {
         setLoading(false);
@@ -50,19 +52,19 @@ export function UserComponent({ params }: { params: { email: string } }) {
 
   if (loading) {
     // Render a loading state if data is still being fetched
-    return true
+    return true;
   }
 
   if (!userData) {
     // Redirect to '/' if userData is false or undefined
-    router.push('/');
+    router.push("/");
     return null; // You might want to handle the case differently, e.g., show an error message
   }
 
   // Render the component with the fetched userData
   return (
     <div>
-      <h1 className='text-3xl'>My Dashboard</h1>
+      <h1 className="text-3xl">My Dashboard</h1>
     </div>
   );
 }

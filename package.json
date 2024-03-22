@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "format": "prettier --write \"src/**/*.tsx\" && prettier --write \"src/**/*.ts\" && prettier --write *.json && prettier --write .*.json && prettier --write *.md && prettier --write *.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -43,6 +44,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
+    "prettier": "^3.2.5",
     "tailwindcss": "^3.4.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
